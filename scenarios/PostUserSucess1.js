@@ -1,11 +1,12 @@
 import http from "k6/http";
-import { sleep } from "k6";
+import { sleep, check } from "k6";
+
 
 export let UserId;
 
 export default function PostUserSuccess() {
 
-  const token = '53aca372c5abf69bf30554143c2ae29c04a394ddcee0647276a0343a61896438';
+  const token = '4d544428f97b222e8f78b9112861201540c747a042aba95c5e04ea0a8f08ca97';
   const headers = {
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
@@ -13,9 +14,9 @@ export default function PostUserSuccess() {
 
 
   const data = {
-    "name": "JotaPe Teste 121",
+    "name": "JotaPe Desafio Nexus",
     "gender": "male",
-    "email": "testu11111@gmail.com",
+    "email": "jotapedesafio@nexus.com",
     "status": "active"
   };
 
@@ -25,11 +26,18 @@ export default function PostUserSuccess() {
   if (res.status === 201) {
     console.log('Solicitação POST bem-sucedida');
     UserId = JSON.parse(res.body).id;
-    console.log(`${UserId}`)
+    console.log(res.body)
 
   } else {
     console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);
   }
+
+  check(res, {
+    'Validar o nome incluído': (r) => JSON.parse(r.body).name === `JotaPe Desafio Nexus`,
+    'Validar o gênero incluído': (r) => JSON.parse(r.body).gender === `male`,
+    'Validar o Email incluído': (r) => JSON.parse(r.body).email === `jotapedesafio@nexus.com`,
+    'Validar o status incluído': (r) => JSON.parse(r.body).status === `active`,
+  });
 
   sleep(1)
 }
