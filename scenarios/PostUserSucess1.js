@@ -19,12 +19,17 @@ export default function PostUserSuccess() {
   if (res.status === 201) {
     console.log('Post - Criação de usuário ✓');
     UserId = JSON.parse(res.body).id;
+  }
+
+  else if (res.status === 422) {
+    console.log('Há campos obrigatórios faltando ✓');
 
   } else {
     console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);
   }
 
   check(res, {
+    "status is 201": (r) => r.status === 201,
     'Validar o nome incluído': (r) => JSON.parse(r.body).name === `JotaPe Desafio Nexus`,
     'Validar o gênero incluído': (r) => JSON.parse(r.body).gender === `male`,
     'Validar o Email incluído': (r) => JSON.parse(r.body).email === `jotapedesafio@nexus.com`,

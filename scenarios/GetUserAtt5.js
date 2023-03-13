@@ -9,7 +9,7 @@ export default function () {
     let res = http.get(`https://gorest.co.in/public/v2/users/${id}`,  { headers })
 
       if (res.status === 200) {
-        console.log('Get de usuário inicial ✓');
+        console.log('Get de usuário alterado ✓');
         console.log(res.body)
         check(res, {
           "status is 200": (r) => r.status === 200,
@@ -20,7 +20,7 @@ export default function () {
           });
     
       } else {
-        console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);
+        console.log(`Erro na solicitação GET: ${res.status} ${res.body}`);
       } 
 
 

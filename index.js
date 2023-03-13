@@ -5,6 +5,7 @@ import GetUserJoao from "./scenarios/GetUserJoao3.js";
 import PutUser from "./scenarios/PutUser4.js";
 import GetUserAtt from "./scenarios/GetUserAtt5.js";
 import DeleteUser6 from "./scenarios/DeleteUser6.js";
+import GetValidateDel7 from "./scenarios/GetValidateDel7.js";
 
 
 export default () => {
@@ -36,6 +37,11 @@ export default () => {
 
     group('Deletando o usuário do teste', () => {
         DeleteUser6();
+    }
+    );
+
+    group('Get para validação de usuário deletado', () => {
+        GetValidateDel7();
     }
     );
 

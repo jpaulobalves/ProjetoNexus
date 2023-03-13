@@ -20,8 +20,10 @@ export default function PostUserFail() {
     console.log('Validação de email em branco ✓');
 
     check(res, {
-      "Status 422": (r) => r.status === 422
+      "Status is 422": (r) => r.status === 422,
+
     });
+
   } else {
     console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);
   } 

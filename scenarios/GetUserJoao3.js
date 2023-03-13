@@ -21,7 +21,7 @@ export default function () {
         });
   
     } else {
-      console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);
+      console.log(`Erro na solicitação Get: ${res.status} ${res.body}`);
     } 
 
     sleep(1);
