@@ -1,17 +1,10 @@
 import http from "k6/http";
 import { sleep, check } from "k6";
-
+import Authorization from "../utils/Autorizacao.js";
 
 export let UserId;
 
 export default function PostUserSuccess() {
-
-  const token = '4d544428f97b222e8f78b9112861201540c747a042aba95c5e04ea0a8f08ca97';
-  const headers = {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  };
-
 
   const data = {
     "name": "JotaPe Desafio Nexus",
@@ -20,13 +13,12 @@ export default function PostUserSuccess() {
     "status": "active"
   };
 
-  // Enviar a solicitação POST com o cabeçalho HTTP Authorization e o corpo da solicitação em formato JSON
+  let headers = Authorization();
   const res = http.post('https://gorest.co.in/public/v2/users', JSON.stringify(data), { headers });
 
   if (res.status === 201) {
-    console.log('Solicitação POST bem-sucedida');
+    console.log('Post - Criação de usuário ✓');
     UserId = JSON.parse(res.body).id;
-    console.log(res.body)
 
   } else {
     console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);

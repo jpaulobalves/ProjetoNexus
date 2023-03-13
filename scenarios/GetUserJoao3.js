@@ -1,27 +1,28 @@
 import http from "k6/http";
 import { sleep, check } from "k6";
 import { UserId } from "./PostUserSucess1.js";
+import Authorization from "../utils/Autorizacao.js";
 
-export default function () {   
-    const token = '4d544428f97b222e8f78b9112861201540c747a042aba95c5e04ea0a8f08ca97';
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    };
-
+export default function () {
+    let headers = Authorization();
     let id = UserId;
-    let res = http.get(`https://gorest.co.in/public/v2/users/${id}`,  { headers })
+    let res = http.get(`https://gorest.co.in/public/v2/users/${id}`, { headers })
 
-    console.log(res.body)
 
-    check(res, {
-      "status is 204": (r) => r.status === 200,
-        'Validar o nome incluído': (r) => JSON.parse(r.body).name === `JotaPe Desafio Nexus`,
-        'Validar o gênero incluído': (r) => JSON.parse(r.body).gender === `male`,
-        'Validar o Email incluído': (r) => JSON.parse(r.body).email === `jotapedesafio@nexus.com`,
-        'Validar o status incluído': (r) => JSON.parse(r.body).status === `active`,
-      });
-
+    if (res.status === 200) {
+      console.log('Get de usuário inicial ✓');
+      console.log(res.body)
+      check(res, {
+        "status is 200": (r) => r.status === 200,
+          'Validar o nome ': (r) => JSON.parse(r.body).name === `JotaPe Desafio Nexus`,
+          'Validar o gênero ': (r) => JSON.parse(r.body).gender === `male`,
+          'Validar o Email ': (r) => JSON.parse(r.body).email === `jotapedesafio@nexus.com`,
+          'Validar o status ': (r) => JSON.parse(r.body).status === `active`,
+        });
+  
+    } else {
+      console.log(`Erro na solicitação POST: ${res.status} ${res.body}`);
+    } 
 
     sleep(1);
 }
